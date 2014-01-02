@@ -1,4 +1,4 @@
 bfi
 ===
 
-A brew of a fast PHP Framework
+BFI Fast Integration PHP Framework
