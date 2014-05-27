@@ -1,7 +1,7 @@
 BFI
 ===
 
-BFI Fast Integration PHP Framework
+#BFI Fast Integration PHP Framework
 
 Why another PHP Framework? 
 Because we need to go faster!
@@ -59,3 +59,26 @@ server {
         }
 }
 ```
+
+## Third-Party tools
+### Lessphp
+I am Using a PHP 5.4 namespace-flavoured fork of
+
+lessphp v0.4.0
+
+http://leafo.net/lessphp
+
+LESS css compiler, adapted from http://lesscss.org
+
+Copyright 2013, Leaf Corcoran <leafot@gmail.com>
+
+Licensed under MIT or GPLv3
+
+### JsMinPlus
+I am using JsMinPlus 1.4
+
+http://files.tweakers.net/jsminplus/jsminplus.zip
+
+By Tino Zijdel <crisp@tweakers.net>
+
+Licensed under MPL 1.1/GPL 2.0/LGPL 2.1
