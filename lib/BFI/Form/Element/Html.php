@@ -2,6 +2,7 @@
 
 namespace BFI\Form\Element;
 
+use BFI\Form\Decorator\Value;
 use BFI\Form\Element;
 
 class Html extends Element
@@ -13,11 +14,12 @@ class Html extends Element
     public $type = 'html';
 
     /**
-     * Render the Element
-     * @return string
+     * C'tor
+     * @param string $name
      */
-    public function render()
+    public function __construct($name)
     {
-        return $this->_value;
+        parent::__construct($name);
+        $this->addDecorator(new Value($this));
     }
 }

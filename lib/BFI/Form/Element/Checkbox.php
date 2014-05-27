@@ -2,6 +2,7 @@
 
 namespace BFI\Form\Element;
 
+use BFI\Form\Decorator\Label;
 use BFI\Form\Element;
 
 class Checkbox extends Element
@@ -17,6 +18,17 @@ class Checkbox extends Element
      * @var bool
      */
     protected $_checked = false;
+
+    /**
+     * C'tor
+     * @param string $name
+     */
+    public function __construct($name)
+    {
+        parent::__construct($name);
+        $this->addDecorator(new \BFI\Form\Decorator\Checkbox($this));
+        $this->addDecorator(new Label($this));
+    }
 
     /**
      * Set checkbox checked
@@ -36,27 +48,5 @@ class Checkbox extends Element
     public function isChecked()
     {
         return $this->_checked;
-    }
-
-    /**
-     * Render the Element
-     * @return string
-     */
-    public function render()
-    {
-        $attribs = array_merge($this->_attributes, array(
-            'type' => $this->type,
-            'name' => $this->_name,
-            'value' => $this->_value,
-        ));
-        if($this->_checked == true) {
-            $attribs['checked'] = 'checked';
-        }
-        $output = '';
-        foreach ($this->_errors as $error) {
-            // TODO: Translate error messages
-            $output .= '<div class="fehler">' . $error . '</div>';
-        }
-        return $this->_buildTag('input', $attribs) . $output;
     }
 }

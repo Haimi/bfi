@@ -2,8 +2,8 @@
 
 namespace BFI\Form\Element;
 
+use BFI\Form\Decorator\Label;
 use BFI\Form\Element;
-use BFI\FrontController;
 
 class Wysiwyg extends Text
 {
@@ -20,18 +20,7 @@ class Wysiwyg extends Text
     public function __construct($name)
     {
         parent::__construct($name);
-    }
-
-    /**
-     * Render the Element
-     * @return string
-     */
-    public function render()
-    {
-        $result = $this->_buildTag('script', array('type' => 'text/javascript'), 'tinymce.init({selector:"#wysiwyg_'.$this->_name.'",language_url:"/js/lang/'.
-            FrontController::getInstance()->getPlugin('translate')->getLanguage() .'.js"});');
-        $result .= $this->_buildTag($this->type, array('name' => $this->_name, 'id' => 'wysiwyg_' . $this->_name));
-
-        return $result;
+        $this->addDecorator(new \BFI\Form\Decorator\Wysiwyg($this));
+        $this->addDecorator(new Label($this));
     }
 }

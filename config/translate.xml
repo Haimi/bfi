@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<translate>
+    <translation tuid="">
+        <value lang="de"></value>
+        <value lang="en"></value>
+    </translation>
+    <translation tuid="__BINDEWORTE__">
+        <value lang="de">an,am,um,bei,der,die,das,er,sie,es,wir,ihr,sie,ohne,mit,ob,zu</value>
+        <value lang="en">to,at,or,and,do</value>
+    </translation>
+    <translation tuid="Login">
+        <value lang="de">Einloggen</value>
+        <value lang="en">Login</value>
+    </translation>
+    <translation tuid="Logout">
+        <value lang="de">Ausloggen</value>
+        <value lang="en">Logout</value>
+    </translation>
+    <translation tuid="Howto">
+        <value lang="de">Was ist das?</value>
+        <value lang="en">What is this?</value>
+    </translation>
+    <translation tuid="About">
+        <value lang="de">Über Ordiphrase</value>
+        <value lang="en">About Ordiphrase</value>
+    </translation>
+    <translation tuid="Imprint">
+        <value lang="de">Impressum</value>
+        <value lang="en">Imprint</value>
+    </translation>
+    <translation tuid="LoggedInAs">
+        <value lang="de">Eingeloggt als</value>
+        <value lang="en">Logged in as</value>
+    </translation>
+    <translation tuid="Passwort:">
+        <value lang="de">Passwort:</value>
+        <value lang="en">Password:</value>
+    </translation>
+    <translation tuid="Settings">
+        <value lang="de">Einstellungen</value>
+        <value lang="en">Settings</value>
+    </translation>
+    <translation tuid="Reset">
+        <value lang="de">Zurücksetzen</value>
+        <value lang="en">Reset</value>
+    </translation>
+    <translation tuid="Save">
+        <value lang="de">Speichern</value>
+        <value lang="en">Save</value>
+    </translation>
+    <translation tuid="German">
+        <value lang="de">Deutsch</value>
+        <value lang="en">German</value>
+    </translation>
+    <translation tuid="English">
+        <value lang="de">Englisch</value>
+        <value lang="en">English</value>
+    </translation>
+    <translation tuid="French">
+        <value lang="de">Französisch</value>
+        <value lang="en">French</value>
+    </translation>
+    <translation tuid="Description">
+        <value lang="de">Beschreibung</value>
+        <value lang="en">Description</value>
+    </translation>
+</translate>

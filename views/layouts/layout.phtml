@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title><?php echo $this->_('Header'); ?></title>
+    <?php
+    echo $this->meta(array('http-equiv' => 'Content-Type', 'content' => 'text/html; charset=utf-8'));
+    echo $this->link(array('type' => 'text/css', 'rel' => 'stylesheet', 'href' => '/css/style.css'));
+    echo $this->script(array('src' => 'http://code.jquery.com/jquery-1.10.1.min.js'));
+    echo $this->script(array('src' => 'http://code.jquery.com/jquery-migrate-1.2.1.min.js'));
+    ?>
+    <!--[if IE]>
+    <?php echo $this->script(array('src' => 'http://html5shiv.googlecode.com/svn/trunk/html5.js')); ?>
+    <![endif]-->
+</head>
+<body>
+<header class="header">
+<h1><?php echo $this->_('Header'); ?></h1>
+<?php
+echo $this->navigation(array(
+    array(
+        'controller' => 'login',
+        'action' => 'index',
+        'html' => $this->_('Login'),
+        'enabled' => 'guest'
+    ),
+    array(
+        'controller' => 'login',
+        'action' => 'logout',
+        'html' => $this->_('Logout'),
+        'disabled' => 'guest'
+    ),
+    array(
+        'controller' => 'settings',
+        'action' => 'index',
+        'html' => $this->_('Settings'),
+        'disabled' => 'guest'
+    ),
+    array(
+        'controller' => 'index',
+        'action' => 'howto',
+        'html' => $this->_('Howto')
+    ),
+    array(
+        'controller' => 'index',
+        'action' => 'about',
+        'html' => $this->_('About')
+    ),
+    array(
+        'controller' => 'index',
+        'action' => 'imprint',
+        'html' => $this->_('Imprint')
+    ),
+));?>
+</header>
+<br class="clear" />
+<section class="content">
+    <section class="column_left">
+        <?php
+        // Partials for left col
+        if (!is_array($this->leftPartials)) {
+            $this->leftPartials = array();
+        }
+        foreach ($this->leftPartials as $part) {
+            echo $this->partial($part);
+        }
+        ?>
+    </section>
+    <section class="column_center">
+        <?php echo $this->content; ?>
+    </section>
+</section>
+<footer class="footer">
+    <nav>
+
+    </nav>
+</footer>
+</body>
+</html>

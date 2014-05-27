@@ -2,24 +2,18 @@
 
 namespace BFI\Form;
 
+use BFI\Form\Decorator\Form\Table;
 use BFI\FrontController;
 use BFI\Form\Element;
-use BFI\Html\Tag;
 
 /**
  * Class Form
  * @package BFI\Form
  */
-class Form extends Tag
+class Form implements IForm
 {
     const METHOD_POST = 'POST';
     const METHOD_GET = 'GET';
-
-    /**
-     * Use table to render a form
-     * @var string
-     */
-    private $_formTplType = 'table';
 
     /**
      * The controller name
@@ -93,6 +87,8 @@ class Form extends Tag
         if (!is_null($method)) {
             $this->setMethod($method);
         }
+        // Add default Decorator
+        $this->_decorator = new Table($this);
         $this->init();
     }
 
@@ -116,6 +112,15 @@ class Form extends Tag
     }
 
     /**
+     * Get the controller name
+     * @return string
+     */
+    public function getController()
+    {
+        return $this->_controller;
+    }
+
+    /**
      * Set the action name
      * @param string $action
      * @return Form
@@ -124,6 +129,15 @@ class Form extends Tag
     {
         $this->_action = strval($action);
         return $this;
+    }
+
+    /**
+     * Get the action name
+     * @return string
+     */
+    public function getAction()
+    {
+        return $this->_action;
     }
 
     /**
@@ -138,6 +152,15 @@ class Form extends Tag
     }
 
     /**
+     * Get the method name
+     * @return string
+     */
+    public function getMethod()
+    {
+        return $this->_method;
+    }
+
+    /**
      * Set the form name
      * @param string $name
      * @return Form
@@ -146,6 +169,15 @@ class Form extends Tag
     {
         $this->_name = strval($name);
         return $this;
+    }
+
+    /**
+     * Get the name
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->_name;
     }
 
     /**
@@ -219,6 +251,24 @@ class Form extends Tag
     }
 
     /**
+     * Return all visible Elements
+     * @return array
+     */
+    public function getElements()
+    {
+        return $this->_elements;
+    }
+
+    /**
+     * Return all invisible Elements
+     * @return array
+     */
+    public function getInvisibleElements()
+    {
+        return $this->_invisibleElements;
+    }
+
+    /**
      * Validate all Elements
      * @param array $values
      * @return bool
@@ -250,13 +300,11 @@ class Form extends Tag
 
     /**
      * Render the form
-     * @todo call the decorator
      * @return string
      */
     public function render()
     {
-        $renderMethod = '_render' . ucfirst($this->_formTplType);
-        return call_user_func(array($this, $renderMethod));
+        return $this->_decorator->render();
     }
 
     /**
@@ -269,9 +317,10 @@ class Form extends Tag
     }
 
     /**
+     * Set the Default value for an element
      * @param Element $elem
      */
-    protected function _setDefaultValue(Element $elem)
+    public function setDefaultValue(Element $elem)
     {
         if(array_key_exists($elem->getName(), $this->_values)) {
             if($elem instanceof Element\Password) {
@@ -283,60 +332,5 @@ class Form extends Tag
                 $elem->setValue($this->_values[$elem->getName()]);
             }
         }
-    }
-
-    /**
-     * Render the form as a table
-     * @return string
-     */
-    protected function _renderTable()
-    {
-        // TODO: Auslagern in Decorator?
-        // Render hidden elements
-        $invisibleElems = '';
-        foreach ($this->_invisibleElements as $elem) {
-            /** @var Element $elem */
-            $this->_setDefaultValue($elem);
-            $invisibleElems .= $elem->render();
-        }
-        // Render visible Elements to table rows
-        $visibleElements = '';
-        foreach ($this->_elements as $elem) {
-            $this->_setDefaultValue($elem);
-            if ($elem->type !== 'html') {
-                $visibleElements .= $this->_buildTag('tr', array(),
-                    $this->_buildTag('td', array(),
-                        $this->_buildTag('label', array(), $this->_($elem->getLabel()))
-                    )
-                    .
-                    $this->_buildTag('td', array(),
-                        $elem->render()
-                    )
-                );
-            } else {
-                $visibleElements .= $this->_buildTag('tr', array(),
-                    $this->_buildTag('td', array('colspan' => 2),
-                        $elem->render()
-                    )
-                );
-            }
-        }
-        // Build form
-        $formAttribs = array_merge($this->_attribs, array(
-            'name' => $this->_name,
-            'action' => sprintf('/%s/%s/', $this->_controller, $this->_action),
-            'method' => $this->_method
-        ));
-        $tableAttribs = array(
-            'width' => '100%',
-            'border' => '0',
-            'cellspacing' => '0',
-            'cellpadding' => '0'
-        );
-        return $this->_buildTag('form', $formAttribs,
-            $invisibleElems
-            .
-            $this->_buildTag('table', $tableAttribs, $visibleElements)
-        );
     }
 }

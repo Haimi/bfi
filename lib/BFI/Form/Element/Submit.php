@@ -2,6 +2,7 @@
 
 namespace BFI\Form\Element;
 
+use BFI\Form\Decorator\Input;
 use BFI\Form\Element;
 
 class Submit extends Element
@@ -13,17 +14,12 @@ class Submit extends Element
     public $type = 'submit';
 
     /**
-     * Render the Element
-     * @return string
+     * C'tor
+     * @param string $name
      */
-    public function render()
+    public function __construct($name)
     {
-        $attribs = array_merge($this->_attributes, array(
-            'type' => $this->type,
-            'name' => $this->_name,
-            'value' => $this->_value
-        ));
-        $output = '';
-        return $this->_buildTag('input', $attribs) . $output;
+        parent::__construct($name);
+        $this->addDecorator(new Input($this));
     }
 }

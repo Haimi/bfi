@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<config>
+    <!-- SMTP Connection Settings -->
+    <smtp>
+        <server>smtp.mailhoster.com</server>
+        <port>25</port>
+        <user>user@page.com</user>
+        <pass>SomePass</pass>
+    </smtp>
+    <!-- Router Settings with aliases -->
+    <router>
+        <route>
+            <name>stadtfuehrer</name>
+            <alias>city-guide</alias>
+        </route>
+        <route>
+            <name>stadtteilkarte</name>
+            <alias>district-map</alias>
+        </route>
+        <route>
+            <name>regionale-ziele</name>
+            <alias>regional-pois</alias>
+        </route>
+        <route>
+            <name>lebenslagen</name>
+            <alias>circumstances</alias>
+        </route>
+        <route>
+            <name>projektinfo</name>
+            <alias>project-information</alias>
+        </route>
+        <route>
+            <name>projektpartner</name>
+            <alias>project-partners</alias>
+        </route>
+    </router>
+    <!-- Plugin settings -->
+    <plugin>
+        <db>
+            <type>mysql</type>
+            <database>mydbname</database>
+            <host>localhost</host>
+            <user>root</user>
+            <pass>MyRootPassword</pass>
+        </db>
+        <layout />
+        <translate>
+            <file>translate.xml</file>
+        </translate>
+        <acl>
+            <roles>
+                <role name="admin">
+                    <allow>
+                        <controller>ALL</controller>
+                    </allow>
+                </role>
+                <role name="partner" parent="admin">
+                    <deny>
+                        <controller>admin</controller>
+                    </deny>
+                </role>
+                <role name="guest">
+                    <allow>
+                        <controller>staticFiles</controller>
+                    </allow>
+                    <allow>
+                        <controller>error</controller>
+                    </allow>
+                    <allow>
+                        <controller>index</controller>
+                    </allow>
+                    <allow>
+                        <controller>login</controller>
+                    </allow>
+                    <allow>
+                        <controller>api</controller>
+                    </allow>
+                </role>
+            </roles>
+        </acl>
+    </plugin>
+</config>

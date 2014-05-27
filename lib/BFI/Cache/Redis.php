@@ -11,7 +11,7 @@ class Redis implements CacheInterface
 
     /**
      * C'tor
-     * Create Connection for BFI cache
+     * Create Connection for aqa cache
      */
     function __construct()
     {

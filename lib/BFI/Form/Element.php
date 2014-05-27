@@ -1,14 +1,14 @@
 <?php
 
 namespace BFI\Form;
-
-use BFI\Html\Tag;
+use BFI\Form\Decorator\Error;
+use BFI\Form\Decorator\Label;
 
 /**
  * Class Element
  * @package BFI\Form
  */
-abstract class Element extends Tag
+abstract class Element implements IForm
 {
     /**
      * Type of the element
@@ -36,12 +36,6 @@ abstract class Element extends Tag
     protected $_label = '';
 
     /**
-     * The element Label
-     * @var boolean
-     */
-    protected $_labelEnabled = true;
-
-    /**
      * HTML attributes of the element
      * @var array
      */
@@ -66,12 +60,18 @@ abstract class Element extends Tag
     protected $_errors = array();
 
     /**
+     * @var array
+     */
+    protected $_decorators = array();
+
+    /**
      * C'tor
      * @param string $name
      */
     public function __construct($name)
     {
         $this->_name = strval($name);
+        $this->addDecorator(new Error($this));
     }
 
     /**
@@ -146,6 +146,37 @@ abstract class Element extends Tag
     }
 
     /**
+     * Add a Decorator
+     * @param Decorator $decorator
+     */
+    public function addDecorator(Decorator $decorator)
+    {
+        $this->_decorators[get_class($decorator)] = $decorator;
+    }
+
+    /**
+     * Get all decorators
+     * @return array
+     */
+    public function getDecorators()
+    {
+        return $this->_decorators;
+    }
+
+    /**
+     * Get a specific decorator
+     * @param string $className
+     * @return \BFI\Form\Decorator\Element
+     */
+    public function getDecorator($className)
+    {
+        if (array_key_exists($className, $this->_decorators)) {
+            return $this->_decorators[$className];
+        }
+        return null;
+    }
+
+    /**
      * Filter value
      * @param string $value
      * @return string
@@ -153,6 +184,7 @@ abstract class Element extends Tag
     public function filter($value)
     {
         foreach ($this->_filters as $filter) {
+            /** @var Filter $filter **/
             $value = $filter->filter($value);
         }
         return $value;
@@ -169,6 +201,7 @@ abstract class Element extends Tag
         $valid = true;
         $value = $this->filter($value);
         foreach ($this->_validators as $validate) {
+            /** @var Validate $validate **/
             $singleValid = $validate->validate($value, $context);
             if ($singleValid == false) {
                 $valid = false;
@@ -239,6 +272,15 @@ abstract class Element extends Tag
     }
 
     /**
+     * Return all attributes
+     * @return array
+     */
+    public function getAttributes()
+    {
+        return $this->_attributes;
+    }
+
+    /**
      * Set the element's label
      * @param $label
      * @return $this
@@ -269,7 +311,7 @@ abstract class Element extends Tag
      */
     public function setLabelEnabled($labelEnabled)
     {
-        $this->_labelEnabled = $labelEnabled;
+        $this->getDecorator('BFI\Form\Decorator\Label')->setEnabled($labelEnabled);
         return $this;
     }
 
@@ -278,7 +320,7 @@ abstract class Element extends Tag
      */
     public function getLabelEnabled()
     {
-        return $this->_labelEnabled;
+        return $this->getDecorator('BFI\Form\Decorator\Label')->isEnabled();
     }
 
     /**
@@ -294,5 +336,21 @@ abstract class Element extends Tag
      * Render the Element
      * @return string
      */
-    abstract public function render();
+    public function render()
+    {
+        $result = '';
+        $errorDecorator = null;
+        foreach ($this->_decorators as $decorator) {
+            /** @var Decorator $decorator **/
+            if (! $decorator instanceof Error && ! $decorator instanceof Label) {
+                $result .= $decorator->render();
+            } elseif ($decorator instanceof Error) {
+                $errorDecorator = $decorator;
+            }
+        }
+        if (! is_null($errorDecorator)) {
+            $result .= $errorDecorator->render();
+        }
+        return $result;
+    }
 }

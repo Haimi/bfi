@@ -2,6 +2,7 @@
 
 namespace BFI\Form\Element;
 
+use BFI\Form\Decorator\Label;
 use BFI\Form\Element;
 use BFI\FrontController;
 
@@ -18,6 +19,17 @@ class Select extends Element
      * @var string
      */
     public $type = 'select';
+
+    /**
+     * C'tor
+     * @param string $name
+     */
+    public function __construct($name)
+    {
+        parent::__construct($name);
+        $this->addDecorator(new \BFI\Form\Decorator\Select($this));
+        $this->addDecorator(new Label($this));
+    }
 
     /**
      * Add an Option
@@ -50,26 +62,11 @@ class Select extends Element
     }
 
     /**
-     * Render the Element
-     * @return string
+     * Get all options
+     * @return array
      */
-    public function render()
+    public function getOptions()
     {
-        $attribs = array_merge($this->_attributes, array(
-            'name' => $this->_name
-        ));
-        $output = '';
-        foreach ($this->_errors as $error) {
-            $output .= '<div class="fehler">' . $error . '</div>';
-        }
-        $options = '';
-        foreach ($this->_options as $key => $opt) {
-            $optAttribs = array('value' => $key);
-            if ($this->_value == $key) {
-                $optAttribs['selected'] = 'selected';
-            }
-            $options .= $this->_buildTag('option', $optAttribs, $opt);
-        }
-        return $this->_buildTag('select', $attribs, $options) . $output;
+        return $this->_options;
     }
 }

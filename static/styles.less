@@ -1,0 +1,72 @@
+@pageWidth: 950px;
+@naviWidth: 100px;
+@naviHeight: 75px;
+
+.box(@width, @height) {
+  width: @width;
+  height: @height;
+  box-shadow: inset 0 0 0 2px @fgColor;
+  background-color: @bgColor;
+}
+
+body {
+ background-color: @bgColor;
+ margin: 0px;
+ padding: 0px;
+}
+
+.clear {
+  clear: both;
+}
+
+header.header,section.content,footer.footer {
+  position: absolute;
+  left: 50%;
+  width: @pageWidth;
+  margin-left: (0 - (@pageWidth / 2));
+}
+
+header.header {
+  top: 0px;
+  background-color: @bgColor;
+  border: 1px solid @fgColor;
+  nav {
+    ul{
+      li {
+        .box(@naviWidth, @naviHeight);
+        list-style: none;
+        float: left;
+        position: relative;
+        margin: 0.4em;
+        padding: 0;
+        &:hover {
+          border-color: @bgColor;
+          background-color: @fgColor;
+        }
+        a {
+          float: left;
+          width: @naviWidth;
+          height: @naviHeight;
+          color: @fgColor;
+          &:hover {
+            color: @bgColor;
+          }
+        }
+      }
+    }
+  }
+}
+section.content {
+  top: 190px;
+  .column_left,.column_right {
+    float: left;
+    width: ((@pageWidth / 4) - 12px);
+    margin: 6px;
+    background-color: #ffffff;
+  }
+  .column_center {
+    float: left;
+    width: @pageWidth * (3/4);
+    background-color: #DDDDDD;
+  }
+}

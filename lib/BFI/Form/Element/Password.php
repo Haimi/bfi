@@ -2,6 +2,8 @@
 
 namespace BFI\Form\Element;
 
+use BFI\Form\Decorator\Input;
+use BFI\Form\Decorator\Label;
 use BFI\Form\Element;
 
 class Password extends Element
@@ -13,21 +15,13 @@ class Password extends Element
     public $type = 'password';
 
     /**
-     * Render the Element
-     * @return string
+     * C'tor
+     * @param string $name
      */
-    public function render()
+    public function __construct($name)
     {
-        $attribs = array_merge($this->_attributes, array(
-            'type' => $this->type,
-            'name' => $this->_name,
-            'value' => $this->_value
-        ));
-        $output = '';
-        foreach ($this->_errors as $error) {
-            // TODO: Translate error messages
-            $output .= '<div class="fehler">' . $error . '</div>';
-        }
-        return $this->_buildTag('input', $attribs) . $output;
+        parent::__construct($name);
+        $this->addDecorator(new Input($this));
+        $this->addDecorator(new Label($this));
     }
 }
